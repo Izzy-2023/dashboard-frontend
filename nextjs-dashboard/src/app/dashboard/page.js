@@ -1,11 +1,15 @@
 // pages/dashboard.js
-import React from 'react';
+"use client";  // Add this line at the top of the file
+
+import React, { useRef } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 const Dashboard = () => {
+  const chartRef = useRef(null);
+
   // Example data for Line Chart
   const data = {
     labels: ['January', 'February', 'March', 'April'],
@@ -22,7 +26,7 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
-      <Line data={data} />
+      <Line ref={chartRef} data={data} />
       {/* Add other charts here */}
     </div>
   );
