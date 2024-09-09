@@ -1,5 +1,3 @@
-// pages/dashboard.js
-
 "use client"; // Add this at the top to make it a Client Component
 
 import React, { useState, useEffect } from 'react';
@@ -115,48 +113,92 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div style={styles.container}>
+      <h1 style={styles.header}>Dashboard</h1>
 
-      <div style={{ width: '600px', height: '400px', margin: 'auto' }}>
-        {/* Line Chart */}
-        <h2>Line Chart</h2>
-        <Line data={lineData} />
+      <div style={styles.chartsContainer}>
+        {/* Left column: Line Chart and Bar Chart */}
+        <div style={styles.column}>
+          <div style={styles.chartWrapper}>
+            <h2>Line Chart</h2>
+            <Line data={lineData} />
+          </div>
 
-        {/* Bar Chart */}
-        <h2>Bar Chart</h2>
-        <Bar data={barData} />
-
-        {/* Pie Chart */}
-        <h2>Pie Chart</h2>
-        <Pie data={pieData} />
-
-        {/* Candlestick Chart */}
-        <h2>Candlestick Chart</h2>
-        <div style={{ width: '600px', height: '400px', margin: 'auto' }}>
-          <canvas id="candlestickChart"></canvas>
+          <div style={styles.chartWrapper}>
+            <h2>Bar Chart</h2>
+            <Bar data={barData} />
+          </div>
         </div>
-        <script>
-          {`
-            const ctx = document.getElementById('candlestickChart').getContext('2d');
-            new Chart(ctx, {
-              type: 'candlestick',
-              data: ${JSON.stringify(candlestickData)},
-              options: {
-                responsive: true,
-                plugins: {
-                  legend: {
-                    display: true,
+
+        {/* Right column: Pie Chart and Candlestick Chart */}
+        <div style={styles.column}>
+          <div style={styles.chartWrapper}>
+            <h2>Pie Chart</h2>
+            <Pie data={pieData} />
+          </div>
+
+          <div style={styles.chartWrapper}>
+            <h2>Candlestick Chart</h2>
+            <canvas id="candlestickChart" />
+            <script>
+              {`
+                const ctx = document.getElementById('candlestickChart').getContext('2d');
+                new Chart(ctx, {
+                  type: 'candlestick',
+                  data: ${JSON.stringify(candlestickData)},
+                  options: {
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        display: true,
+                      },
+                    },
                   },
-                },
-              },
-            });
-          `}
-        </script>
+                });
+              `}
+            </script>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
+// CSS styles for layout and appearance
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '20px auto',
+    maxWidth: '1200px',
+  },
+  header: {
+    fontSize: '2rem',
+    marginBottom: '20px',
+  },
+  chartsContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    gap: '20px', // Adds spacing between columns
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    gap: '20px', // Adds space between charts in each column
+  },
+  chartWrapper: {
+    backgroundColor: 'white',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    padding: '20px',
+    minHeight: '400px',
+  },
+};
+
 export default Dashboard;
+
 
